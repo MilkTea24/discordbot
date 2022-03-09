@@ -24,25 +24,25 @@ module.exports = {
             }
         
         if (user.get_last_date() != moment().utcOffset(540).format("YYYY-MM-DD") && user.timer.ms == 0){
-            const time = user.timer.ms / 1000;
+            const time = user.get_total_time() / 1000;
             let hour = Math.floor(time / 3600);
             let minute = Math.floor(time / 60 % 60);
             let second = Math.floor(time % 60);
             user.set_total_time(0);
             user.set_last_date(moment().utcOffset(540).format("YYYY-MM-DD"));
             user.timer.start();
-            return interaction.reply('오늘 첫 공부입니다! 공부 시작 시간은 '+moment().utcOffset(540).format('HH:mm:ss')+'입니다\n 어제는 '+hour+'시간 '+minute+'분 '+second+'초 공부하셨어요');
+            return interaction.reply({content: `오늘 첫 공부입니다! 공부 시작 시간은 ${moment().utcOffset(540).format('HH:mm:ss')}입니다\n 어제는 ${hour}시간 ${minute}분 ${second}초 공부하셨어요`, ephemeral: true});
         }
         else if (user.timer.ms != 0){
             const time = user.timer.ms / 1000;
             let hour = Math.floor(time / 3600);
             let minute = Math.floor(time / 60 % 60);
             let second = Math.floor(time % 60);
-            return interaction.reply('이미 공부 시작하셨는데요? 현재 '+hour+'시간 '+minute+'분 '+second+'초 동안 공부 중이에요');
+            return interaction.reply({content: `이미 공부 시작하셨는데요? 현재 ${hour}시간 ${minute}분 ${second}초 동안 공부 중이에요`, ephemeral: true});
         }
         else {
             user.timer.start();
-            return interaction.reply(interaction.user.username+'님 안녕하세요! 공부 시작 시간은 '+moment().utcOffset(540).format('HH:mm:ss')+'입니다');
+            return interaction.reply({content: `${interaction.user.username}님 안녕하세요! 공부 시작 시간은 ${moment().utcOffset(540).format('HH:mm:ss')}입니다`, ephemeral: true});
         }
 	},
 };

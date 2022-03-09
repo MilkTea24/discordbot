@@ -3,9 +3,13 @@ var total_times;
 var last_study_date;
 
 module.exports = {
+    name : "아루",
     timer : new Stopwatch(),
     total_time : total_times,
     last_date : last_study_date,
+    get_name: function(){
+        return this.name;
+    },
     set_total_time: function (settotal) {
         total_times = settotal;
     },

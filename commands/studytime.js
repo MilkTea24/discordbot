@@ -29,10 +29,10 @@ module.exports = {
             let hour = Math.floor(time / 3600);
             let minute = Math.floor(time / 60 % 60);
             let second = Math.floor(time % 60);
-            return interaction.reply('현재 '+hour+'시간 '+minute+'분 '+second+'초 동안 공부 중이에요');
+            return interaction.reply({content:`현재 ${hour}시간 ${minute}분 ${second}초 동안 공부 중이에요`, ephemeral: true});
         }
         else {
-            return interaction.reply(interaction.user.username+'님은 현재 놀고 계시네요..');
+            return interaction.reply({content:`${interaction.user.username}님은 현재 놀고 계시네요..`, ephemeral: true});
         }
 	},
 };

@@ -39,11 +39,11 @@ module.exports = {
             let totalsecond = Math.floor(total % 60);
             user.timer.stop();
             user.timer.reset();
-            return interaction.reply(hour+'시간 '+minute+'분 '+second+'초 동안 공부했어요\n 총 공부 시간은 '+totalhour+'시간 '+totalminute+'분 '+totalsecond+'초');
+            return interaction.reply({content: `${hour}시간 ${minute}분 ${second}초 동안 공부했어요\n 총 공부 시간은 ${totalhour}시간 ${totalminute}분 ${totalsecond}초`, ephemeral: true});
         }
         //타이머가 작동중이지 않으면 따로 안내
         else {
-            return interaction.reply(interaction.user.username+'님은 시작도 안했는데 쉬고 싶나요');
+            return interaction.reply({content:`${interaction.user.username}님은 시작도 안했는데 쉬고 싶나요`, ephemeral: true});
         }
 	},
 };
