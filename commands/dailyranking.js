@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-var aru = require('../modules/timermodule_aru');
-var ratchet = require('../modules/timermodule_rat');
-var tenema = require('../modules/timermodule_tenem');
-var xposbox = require('../modules/timermodule_xpos');
+var aru = require('../timer_user_modules/timermodule_aru');
+var ratchet = require('../timer_user_modules/timermodule_rat');
+var tenema = require('../timer_user_modules/timermodule_tenem');
+var xposbox = require('../timer_user_modules/timermodule_xpos');
 var moment = require('moment');
 
 
