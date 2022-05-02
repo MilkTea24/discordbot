@@ -24,7 +24,7 @@ module.exports = {
             }
         
         if (user.get_last_date() != moment().utcOffset(540).format("YYYY-MM-DD") && user.timer.ms == 0){
-            const time = user.get_total_time() / 1000;
+            const time = user.get_total_time();
             let hour = Math.floor(time / 3600);
             let minute = Math.floor(time / 60 % 60);
             let second = Math.floor(time % 60);
