@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 10000000,
             allowNull: false,
         },
+        register_date: {
+            type:DataTypes.DATEONLY,
+        },
     }, {
         timestamps: false,
     });

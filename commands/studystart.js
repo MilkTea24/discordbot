@@ -1,4 +1,27 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const moment = require('moment');
+const {Users, Coins, Study_Time} = require('../dbObjects.js');
+
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('공부시작')
+		.setDescription('공부시간을 기록할려면 실행하세요'),
+	async execute(interaction) {
+        var act_id = interaction.user.id;
+        const user = await Users.findOne({
+			where: {user_id: id},
+		});
+        if (user) {
+            const today = await Study_Time.findOne({
+                where: {user_id: id, date: }
+            })
+        }
+	},
+};
+
+
+
+/*
 var aru = require('../timer_user_modules/timermodule_aru');
 var ratchet = require('../timer_user_modules/timermodule_rat');
 var tenema = require('../timer_user_modules/timermodule_tenem');
@@ -46,3 +69,4 @@ module.exports = {
         }
 	},
 };
+*/

@@ -9,14 +9,10 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
-var db = require('./models/db.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-
-db.run('CREATE TABLE user(id integer primary key, userid integer unique, username text)');
-db.run('CREATE TABLE ')
 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);

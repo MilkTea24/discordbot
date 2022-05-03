@@ -1,30 +1,39 @@
 {
-    "name": "discord-bot",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@discordjs/builders": "^0.12.0",
-        "@discordjs/rest": "^0.3.0",
-        "api": "^4.2.0",
-        "discord-api-types": "^0.27.3",
-        "discord.js": "^13.6.0",
-        "flatted": "^3.2.5",
-        "lodash": "^4.17.21",
-        "moment": "^2.29.1",
-        "request": "^2.88.2",
-        "request-promise-native": "^1.0.9",
-        "sequelize": "^6.19.0",
-        "sqlite3": "^5.0.6",
-        "timer-stopwatch": "^0.2.0",
-        "timer-stopwatch-dev": "^1.1.0"
-    },
-    "devDependencies": {
-        "eslint": "^8.10.0"
-    }
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "api": "^4.2.0",
+    "discord-api-types": "^0.27.3",
+    "discord.js": "^13.6.0",
+    "flatted": "^3.2.5",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
+    "sequelize": "^6.19.0",
+    "sqlite3": "^5.0.6",
+    "timer-stopwatch": "^0.2.0",
+    "timer-stopwatch-dev": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MilkTea24/discordbot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MilkTea24/discordbot/issues"
+  },
+  "homepage": "https://github.com/MilkTea24/discordbot#readme",
+  "description": ""
 }
