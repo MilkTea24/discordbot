@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const {Users, Coins, Study_Time} = require('../dbObjects.js');
+const study_time_collection = require('../modules/study_collection.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,12 +10,21 @@ module.exports = {
 	async execute(interaction) {
         var act_id = interaction.user.id;
         const user = await Users.findOne({
-			where: {user_id: id},
+			where: {user_id: act_id},
 		});
-        if (user) {
-            const today = await Study_Time.findOne({
-                where: {user_id: id, date: }
-            })
+
+        if (user) {  
+            var start_time = study_time_collection.get(act_id);
+            if (start_time){
+                return interaction.reply({content:`${interaction.user.username}님은 이미 공부 중이시네요.`, ephemeral: true});
+            }
+            else{
+            study_time_collection.set(act_id, moment().utcOffset(540));
+            return interaction.reply({content:`공부 시작 시간은 ${moment().utcOffset(540).format('h:mm:ss')}입니다.`, ephemeral: true});
+            }
+        }
+        else {
+            return interaction.reply("회원 가입을 먼저 해주세요!");
         }
 	},
 };

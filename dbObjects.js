@@ -14,4 +14,7 @@ const Study_Time = require('./models/study_time.js')(sequelize, Sequelize.DataTy
 Coins.belongsTo(Users, {foreignKey: 'user_id', as: 'user'});
 Study_Time.belongsTo(Users, {foreignKey: 'user_id', as: 'user'});
 
+Users.hasMany(Study_Time, {foreignKey: 'user_id'});
+Users.hasMany(Coins, {foreignKey: 'user_id'});
+
 module.exports = {Users, Coins, Study_Time};

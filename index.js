@@ -9,6 +9,8 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const cron = require('node-cron');
+const { CLIENT_RENEG_WINDOW } = require('tls');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -33,11 +35,30 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log('Ready!');
+	let channel = "953141290441277470"; //군침 일일랭킹백업 채널
+
+	let scheduledMessage = cron.schedule('00 00 * * *', () => {
+		console.log("scheduledMessage 실행");
+		client.channels.cache.get(channel).send("하루가 끝났네요! 오늘도 열심히 공부해봐요:smile:");
+		const when_date_over = require("./modules/today_end.js");
+		when_date_over.today_end();
+	})
 });
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
+	/*
+	if (interaction.isButton()){
+		const inter_ = require('./modules/button_interaction');
+		var obj = await inter_.interact(interaction);
+		console.log(obj);
+		if (obj) {
+			let channel = "953141290441277470";
+			client.channels.cache.get(channel).send(obj);
+		}
+		return;
+	}
+	*/
+	if (interaction.isCommand()){
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
@@ -47,11 +68,23 @@ client.on('interactionCreate', async interaction => {
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
+	}	
+}
 });
 
 client.on('interactionCreate', interaction => {
 	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
+});
+
+
+client.on('message', (message) => {
+	const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 15000});
+	collector.on('collect', i => {
+		const buttons = require('./modules/button');
+		const interaction = require('./modules/button_interaction');
+		interaction.interact(i, interaction);
+		console.log('collected');
+	})
 });
 
 client.login(token);

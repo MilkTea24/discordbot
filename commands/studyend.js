@@ -1,10 +1,44 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-var aru = require('../timer_user_modules/timermodule_aru');
-var ratchet = require('../timer_user_modules/timermodule_rat');
-var tenema = require('../timer_user_modules/timermodule_tenem');
-var xposbox = require('../timer_user_modules/timermodule_xpos');
 var moment = require('moment');
+const Sequelize = require('sequelize');
+const {Users, Coins, Study_Time} = require('../dbObjects.js');
+const study_time_collection = require('../modules/study_collection.js');
 
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('공부끝')
+		.setDescription('쉬고 싶다면 실행하세요 근데 벌써 쉬겠어?'),
+	async execute(interaction) {
+        var act_id = interaction.user.id;
+
+        const user = await Users.findOne({
+			where: {user_id: act_id},
+		});
+
+        if (user){
+            var start_time = study_time_collection.get(act_id);
+            study_time_collection.delete(act_id);
+            if (start_time){
+            var now_time = moment().utcOffset(540);
+        
+            start_time.format();
+            now_time.format();
+
+            var time = now_time.diff(start_time, "seconds");
+            start_time = study_time_collection.get(act_id);
+            Study_Time.create({user_id: act_id, study_date: start_time, study_time: time});
+
+            let hour = Math.floor(time / 3600);
+            let minute = Math.floor(time / 60 % 60);
+            let second = Math.floor(time % 60);
+            return interaction.reply({content:`${hour}시간 ${minute}분 ${second}초 동안 공부했어요.`, ephemeral: true});
+            }
+            return interaction.reply({content:`${interaction.user.username}님은 현재 놀고 계시네요..`, ephemeral: true});
+        }
+        return interaction.reply({content:`회원가입 먼저 해주세요!`, ephemeral: true});
+	},
+};
+/*
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('공부끝')
@@ -47,3 +81,4 @@ module.exports = {
         }
 	},
 };
+*/
