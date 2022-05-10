@@ -1,10 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Client, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const {Users, Coins, Study_Time} = require('../dbObjects.js');
 const study_time_collection = require('../modules/study_collection.js');
 const buttons = require('../modules/button');
 
 const Sequelize = require('sequelize');
+const { utc } = require('moment');
+const Op = Sequelize.Op;
 
 const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
@@ -28,7 +31,6 @@ module.exports = {
         collector.on("collect", async (interaction) => {
             if (interaction.customId === 'start'){
                 var act_id = interaction.user.id;
-                console.log(act_id);
                 const user = await Users.findOne({
                     where: {user_id: act_id},
                 });
@@ -85,7 +87,7 @@ module.exports = {
                     start_time.format();
         
                     var time = now_time.diff(start_time, "seconds");
-                    Study_Time.create({user_id: act_id, study_date: start_time.format("YYYY-MM-DD"), this_study_time: start_time, study_time: time});
+                    await Study_Time.create({study_id: act_id, date: start_time.format("YYYY-MM-DD"), study_start_time: start_time.format(), studying_time: time});
         
                     let hour = Math.floor(time / 3600);
                     let minute = Math.floor(time / 60 % 60);
@@ -103,35 +105,62 @@ module.exports = {
             else if (interaction.customId === 'ranking'){
                 var act_id = interaction.user.id;
         
-                const study_times = await Study_Time.findAll({
+                var study_times = await Study_Time.findAll({
+                    
                     include: [
                         {
                             model: Users,
-                            attributes: ['user_name'], 
-                            as: 'user'
+                            attributes: ['user_name'],
+                            required: true,
                         }
                     ],
                     attributes:[
-                        'user_id',
-                        [sequelize.fn('sum', sequelize.col('study_time')), 'total_time']
+                        'study_id',
+                        [sequelize.fn('sum', sequelize.col('studying_time')), 'total_time']
                     ],
-                    group: ['user_id'],
-                    order: ['total_time', "desc"]
+                    group: 'study_id',
+                    where: { date : moment().utcOffset(540).format("YYYY-MM-DD")}
                 })
-
+                
+                study_times = study_times.map(el => el.get({ plain: true }));
+                
                 var rankembed = new MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle(moment().utcOffset(540).format("YYYY-MM-DD") + " 랭킹");
 
                 var count = 1;
-                for (var study_time of study_times){
-                    var time = study_time.total_time;
+                console.log("study_times: ", study_times);
+                for (var today_study of study_times){
+                    var time = 0;
+                    var emoji;
+                    var start_time = study_time_collection.get(today_study.study_id);
+                    if (start_time){
+                        var now_time = moment().utcOffset(540);
+                        emoji = ":clock3:";
+                        start_time.format();
+                        now_time.format();
+            
+                        time = today_study.total_time + now_time.diff(start_time, "seconds");
+                    }
+                    else {
+                        time = today_study.total_time;
+                        emoji = ":sleeping:";
+                    }
+                    today_study.total_time = time;
+                    console.log("total_time: ", today_study.total_time);
+                }
+
+                study_times.sort(function(a,b) {
+                    return b.total_time - a.total_time;
+                });
+
+                for (var today_study of study_times){
                     let hour = Math.floor(time / 3600);
                     let minute = Math.floor(time / 60 % 60);
                     let second = Math.floor(time % 60);
                     rankembed
                     .addFields( 
-                        {name: count + "등 " + study_time.user_name, value: hour + ":" + minute + ":" + second + ":clock:"}
+                        {name: count + "등 " + today_study.user.user_name, value: hour + "시 " + minute + "분 " + second + "초 " + emoji}
                     )
                 }
 
