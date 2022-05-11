@@ -10,7 +10,9 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 const cron = require('node-cron');
-const { CLIENT_RENEG_WINDOW } = require('tls');
+const study_button = require('./modules/button.js');
+const { Channel } = require('diagnostics_channel');
+var study_send_pro;
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -26,6 +28,7 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Collection();
+client.buttons = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -33,9 +36,18 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
+const buttonFolders = fs.readdirSync('./buttons');
+for (const folder of buttonFolders) {
+	const buttonFiles = fs.readdirSync(`./buttons/${folder}`).filter(file => file.endsWith('.js'));
+	for (const file of buttonFiles) {
+		const button = require(`./buttons/${folder}/${file}`);
+		client.buttons.set(button.data.name, button);
+	}
+}
+
 client.once('ready', () => {
 	console.log('Ready!');
-	let channel = "953141290441277470"; //군침 일일랭킹백업 채널
+	let channel = "948481820947787836"; //군침 일일랭킹백업 채널
 
 	let scheduledMessage = cron.schedule('00 00 * * *', () => {
 		console.log("scheduledMessage 실행");
@@ -43,21 +55,23 @@ client.once('ready', () => {
 		const when_date_over = require("./modules/today_end.js");
 		when_date_over.today_end();
 	})
+
+	study_send_pro = client.channels.cache.get(channel).send({components: [study_button]});
 });
 
 client.on('interactionCreate', async interaction => {
-	/*
 	if (interaction.isButton()){
-		const inter_ = require('./modules/button_interaction');
-		var obj = await inter_.interact(interaction);
-		console.log(obj);
-		if (obj) {
-			let channel = "953141290441277470";
-			client.channels.cache.get(channel).send(obj);
+		const button = client.buttons.get(interaction.customId);
+		if (!button) return;
+
+		try{
+			await button.execute(interaction);
 		}
-		return;
+		catch (error) {
+			console.error(error);
+			await interaction.reply({content: 'button interaction error!', ephemeral: true});
+		}
 	}
-	*/
 	if (interaction.isCommand()){
 	const command = client.commands.get(interaction.commandName);
 
@@ -76,15 +90,17 @@ client.on('interactionCreate', interaction => {
 	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
 });
 
-
-client.on('message', (message) => {
-	const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 15000});
-	collector.on('collect', i => {
-		const buttons = require('./modules/button');
-		const interaction = require('./modules/button_interaction');
-		interaction.interact(i, interaction);
-		console.log('collected');
-	})
+/*
+client.on('messageCreate', async (message) => {
+	console.log('message created');
+	if (message.channelId == '948481820947787836'){
+		console.log('aa');
+		study_send_pro.then(sent => {
+			message.channel.messages.fetch(sent.id).then(msg => msg.delete());
+			study_send_pro = client.channels.cache.get(channel).send({components: [study_button]});
+		});
+	}
 });
+*/
 
 client.login(token);
