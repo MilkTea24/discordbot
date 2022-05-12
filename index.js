@@ -7,14 +7,17 @@
 
 const Sequelize = require('sequelize');
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const { token } = require('./config.json');
 const cron = require('node-cron');
 const study_button = require('./modules/button.js');
 const { Channel } = require('diagnostics_channel');
-var study_send_pro;
+var study_info = require('./modules/share_study_info');
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const myIntents = new Intents();
+myIntents.add(Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES);
+
+const client = new Client({ intents: myIntents });
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
@@ -47,7 +50,7 @@ for (const folder of buttonFolders) {
 
 client.once('ready', () => {
 	console.log('Ready!');
-	let channel = "948481820947787836"; //군침 일일랭킹백업 채널
+	let channel = "948481820947787836"; //공부 채널
 
 	let scheduledMessage = cron.schedule('00 00 * * *', () => {
 		console.log("scheduledMessage 실행");
@@ -56,7 +59,13 @@ client.once('ready', () => {
 		when_date_over.today_end();
 	})
 
-	study_send_pro = client.channels.cache.get(channel).send({components: [study_button]});
+	const study_channel = client.channels.cache.get("948481820947787836");
+	study_info.infoembed = new MessageEmbed()
+	.setColor('#0099ff')
+	.setTitle("놀지말고 공부합시다:fist::fist:")
+	.setDescription("init");
+	study_info.promise = study_channel.send({embeds:[study_info.infoembed] ,components: [study_button]});
+	count = 0;
 });
 
 client.on('interactionCreate', async interaction => {
@@ -90,17 +99,21 @@ client.on('interactionCreate', interaction => {
 	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
 });
 
-/*
 client.on('messageCreate', async (message) => {
-	console.log('message created');
-	if (message.channelId == '948481820947787836'){
-		console.log('aa');
-		study_send_pro.then(sent => {
-			message.channel.messages.fetch(sent.id).then(msg => msg.delete());
-			study_send_pro = client.channels.cache.get(channel).send({components: [study_button]});
-		});
+	if (message.channelId == '948481820947787836' ){
+		if (!message.author.bot){
+		try{
+				var sent = await study_info.promise;
+				var msg = await message.channel.messages.fetch(sent.id);
+				msg.delete();
+				study_info.promise = client.channels.cache.get("948481820947787836").send({embeds:[study_info.infoembed] ,components: [study_button]});
+		}
+		catch(error){
+			console.log(error);
+		}	
+		}
 	}
 });
-*/
+
 
 client.login(token);
