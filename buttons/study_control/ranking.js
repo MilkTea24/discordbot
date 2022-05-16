@@ -2,6 +2,7 @@ const moment = require('moment');
 const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const { Client, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const study_time_collection = require('../../modules/study_collection.js');
+const study_button = require('../../modules/button.js');
 
 const Sequelize = require('sequelize');
 
@@ -48,6 +49,7 @@ module.exports = {
             var time = 0;
             var start_time = study_time_collection.get(today_study.study_id);
             if (start_time){
+                start_time = start_time.time;
                 var now_time = moment().utcOffset(540);
                 today_study.emoji = ":clock3:";
                 start_time.format();
@@ -79,6 +81,16 @@ module.exports = {
             count++;
         }
 
-        await interaction.reply({embeds: [rankembed]});
+
+        var s = "";
+        for (let v of study_time_collection.values()) {
+            s += v.name + "  "
+        }
+        
+        if (s){
+        study_info.infoembed.addFields({name: "현재 공부 중인 인원", value: s})
+        }
+
+        await interaction.reply({embeds: [rankembed],components: [study_button]});
     },
 };

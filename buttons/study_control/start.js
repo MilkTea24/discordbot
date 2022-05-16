@@ -5,11 +5,6 @@ const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const study_time_collection = require('../../modules/study_collection.js');
 var study_info = require('../../modules/share_study_info.js');
 
-const myIntents = new Intents();
-myIntents.add(Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES);
-
-const client = new Client({ intents: myIntents });
-
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
@@ -48,8 +43,14 @@ module.exports = {
 
         }
         else {
-            study_info.infoembed.addFields({name: "로그 :speech_balloon:" , value: "미등록 회원은 이 기능을 사용할 수 없습니다. 회원 등록을 원하시면 /회원가입"})
+            study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: "미등록 회원은 이 기능을 사용할 수 없습니다. 회원 등록을 원하시면 /회원가입"})
         }
+
+
+        study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: user.user_name + "님은 이미 공부 중이네요.\n 공부시간을 확인하고 싶으면 시간확인을 눌러주세요."})
+
+        
+
 
         var s = "";
         for (let v of study_time_collection.values()) {

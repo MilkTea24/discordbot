@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('studytime', {
+    return sequelize.define('study_time', {
         study_id: DataTypes.STRING,
         date: {
             type: DataTypes.STRING,
@@ -13,6 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         }
     }, {
-        timestampes: false,
+        timestampes: true,
     })
 }

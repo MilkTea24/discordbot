@@ -50,6 +50,7 @@ for (const folder of buttonFolders) {
 
 client.once('ready', () => {
 	console.log('Ready!');
+
 	let channel = "948481820947787836"; //공부 채널
 
 	let scheduledMessage = cron.schedule('00 00 * * *', () => {
