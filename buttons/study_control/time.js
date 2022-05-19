@@ -65,7 +65,9 @@ module.exports = {
             total_time += today_time.studying_time;
             if (count >= today_times.length - 10) {
             let start = moment(today_time.study_start_time).utcOffset(540);
-            time_s += ":small_blue_diamond: " + /*hour + "시간 " + minute + "분 " + second + "초 \t\t" + */start.format("h:mm:ss A") + " ~ " + start.add(today_time.studying_time, 'seconds').utcOffset(540).format("h:mm:ss A") + "\n";
+            console.log(start.utcOffset(540).format("h:mm:ss A"));
+            console.log(start.add(today_time.studying_time, 'seconds').utcOffset(540).format("h:mm:ss A"));
+            time_s += ":small_blue_diamond: " + /*hour + "시간 " + minute + "분 " + second + "초 \t\t" + */start.utcOffset(540).format("h:mm:ss A") + " ~ " + start.add(today_time.studying_time, 'seconds').utcOffset(540).format("h:mm:ss A") + "\n";
             }
             count++;
         }

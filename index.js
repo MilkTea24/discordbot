@@ -2,8 +2,8 @@
 //테스트 서버id:"939036590636924998"
 //군침 봇 client ID:"947493594334367784"
 //테스트 봇 client ID:"969053884674879510"
-//군침 봇 토큰:"OTQ3NDkzNTk0MzM0MzY3Nzg0.YhuELA.satEW01twW9_9IpNucg3IXkpghk"
-//테스트 봇 토큰:"OTY5MDUzODg0Njc0ODc5NTEw.Ymnzwg.tiW9lqVJHz1Nw9QolpGioGMXZYM"
+//군침 봇 토큰:"OTQ3NDkzNTk0MzM0MzY3Nzg0.GwEW2Y.Ly4fDwVFJTKcDAHssy3UxhmXWGO-eVTMN-yR6E"
+//테스트 봇 토큰:"OTY5MDUzODg0Njc0ODc5NTEw.GBxiZ1.VUM9lX67Pk1qz6B8WHM5DY0LozlYfWjqvEWfI8"
 
 const Sequelize = require('sequelize');
 const fs = require('fs');
@@ -13,6 +13,11 @@ const cron = require('node-cron');
 const study_button = require('./modules/button.js');
 const { Channel } = require('diagnostics_channel');
 var study_info = require('./modules/share_study_info');
+
+//군침 공부방 channel id:948481820947787836
+//테스트 공부방 channel id:"976683517553553420"
+var study_channel_id = "976683517553553420";
+
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES);
@@ -51,16 +56,14 @@ for (const folder of buttonFolders) {
 client.once('ready', () => {
 	console.log('Ready!');
 
-	let channel = "948481820947787836"; //공부 채널
-
 	let scheduledMessage = cron.schedule('00 00 * * *', () => {
 		console.log("scheduledMessage 실행");
-		client.channels.cache.get(channel).send("하루가 끝났네요! 오늘도 열심히 공부해봐요:smile:");
+		client.channels.cache.get(study_channel_id).send("하루가 끝났네요! 오늘도 열심히 공부해봐요:smile:");
 		const when_date_over = require("./modules/today_end.js");
 		when_date_over.today_end();
 	})
 
-	const study_channel = client.channels.cache.get("948481820947787836");
+	const study_channel = client.channels.cache.get(study_channel_id);
 	study_info.infoembed = new MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle("놀지말고 공부합시다:fist::fist:")
@@ -101,13 +104,13 @@ client.on('interactionCreate', interaction => {
 });
 
 client.on('messageCreate', async (message) => {
-	if (message.channelId == '948481820947787836' ){
+	if (message.channelId == study_channel_id ){
 		if (!message.author.bot){
 		try{
 				var sent = await study_info.promise;
 				var msg = await message.channel.messages.fetch(sent.id);
 				msg.delete();
-				study_info.promise = client.channels.cache.get("948481820947787836").send({embeds:[study_info.infoembed] ,components: [study_button]});
+				study_info.promise = client.channels.cache.get(study_channel_id).send({embeds:[study_info.infoembed] ,components: [study_button]});
 		}
 		catch(error){
 			console.log(error);

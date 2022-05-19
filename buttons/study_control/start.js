@@ -32,6 +32,7 @@ module.exports = {
 
         if (user) {  
             var study_time = study_time_collection.get(act_id);
+            console.log(study_time);
             if (!study_time) {
                 study_time_collection.set(act_id, {time:moment().utcOffset(540), name:user.user_name});
                 study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: user.user_name + "님이 공부를 시작했어요. 공부 시작시간은 "
@@ -45,9 +46,6 @@ module.exports = {
         else {
             study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: "미등록 회원은 이 기능을 사용할 수 없습니다. 회원 등록을 원하시면 /회원가입"})
         }
-
-
-        study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: user.user_name + "님은 이미 공부 중이네요.\n 공부시간을 확인하고 싶으면 시간확인을 눌러주세요."})
 
         
 

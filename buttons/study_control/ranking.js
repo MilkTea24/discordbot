@@ -3,6 +3,7 @@ const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const { Client, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const study_time_collection = require('../../modules/study_collection.js');
 const study_button = require('../../modules/button.js');
+var study_info = require('../../modules/share_study_info.js');
 
 const Sequelize = require('sequelize');
 
