@@ -2,7 +2,7 @@
 //테스트 서버id:"939036590636924998"
 //군침 봇 client ID:"947493594334367784"
 //테스트 봇 client ID:"969053884674879510"
-//군침 봇 토큰:"OTQ3NDkzNTk0MzM0MzY3Nzg0.GwEW2Y.Ly4fDwVFJTKcDAHssy3UxhmXWGO-eVTMN-yR6E"
+//군침 봇 토큰:"OTQ3NDkzNTk0MzM0MzY3Nzg0.Gm8l13.7i9keC8KJL3w-oDFPkZ34_UC5cW24I6wRAqwOA"
 //테스트 봇 토큰:"OTY5MDUzODg0Njc0ODc5NTEw.GBxiZ1.VUM9lX67Pk1qz6B8WHM5DY0LozlYfWjqvEWfI8"
 
 const Sequelize = require('sequelize');
@@ -14,9 +14,9 @@ const study_button = require('./modules/button.js');
 const { Channel } = require('diagnostics_channel');
 var study_info = require('./modules/share_study_info');
 
-//군침 공부방 channel id:948481820947787836
+//군침 공부방 channel id:"948481820947787836"
 //테스트 공부방 channel id:"976683517553553420"
-var study_channel_id = "976683517553553420";
+var study_channel_id = "948481820947787836";
 
 
 const myIntents = new Intents();

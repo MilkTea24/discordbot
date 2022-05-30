@@ -2,11 +2,11 @@ const study_time_collection = require('./study_collection.js');
 const {Users, Coins, Study_Time} = require('../dbObjects.js');
 const moment = require('moment');
 const {Collection} = require('discord.js');
-const temp = new Collection();
 
 module.exports = {
     today_end: async function () {
         console.log(study_time_collection.entries());
+        const temp = new Collection();
         for (let [key, value] of study_time_collection.entries()){
             
             const user = await Users.findOne({
@@ -35,5 +35,7 @@ module.exports = {
         for (let [key, value] of temp.entries()){
             study_time_collection.set(key, value);
         }
+
+        temp.clear();
     }
 }

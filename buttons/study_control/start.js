@@ -63,19 +63,5 @@ module.exports = {
 
 
         await interaction.reply({embeds: [study_info.infoembed],components: [study_button]});
-        /*
-        try{
-            study_info.promise.then(sent => {
-            message.channel.messages.fetch(sent.id).then(msg => msg.delete());
-            return interaction.reply({embeds: [study_info.infoembed],components: [study_button]});
-            });
-        }
-        catch(error){
-            console.log(error);
-        }	
-        */
-        
-        
-
     },
 };
