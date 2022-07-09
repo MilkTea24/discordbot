@@ -11,7 +11,7 @@ const Coins = require('./models/coins.js')(sequelize, Sequelize.DataTypes);
 const Users = require('./models/users.js')(sequelize, Sequelize.DataTypes);
 const Study_Time = require('./models/study_time.js')(sequelize, Sequelize.DataTypes);
 
-Coins.belongsTo(Users, {foreignKey: 'user_id', targetKey: 'user_id'});
+Coins.belongsTo(Users, {foreignKey: 'coin_userid', targetKey: 'user_id'});
 Study_Time.belongsTo(Users, {foreignKey: 'study_id', targetKey: 'user_id'});
 
 Users.hasMany(Study_Time, {foreignKey: 'user_id'});

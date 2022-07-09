@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('coins', {
-        user_id: DataTypes.STRING,
+        coin_userid: DataTypes.STRING,
         coin_name: DataTypes.STRING,
         coin_market: DataTypes.STRING,
         average_price: {

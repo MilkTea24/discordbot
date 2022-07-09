@@ -18,6 +18,11 @@ const row = new MessageActionRow()
     .setEmoji('✈️')
     .setStyle('SUCCESS'),
     new MessageButton()
+    .setCustomId('specificPeriod')
+    .setLabel("기간조회")
+    .setEmoji('📋')
+    .setStyle('SUCCESS'),
+    new MessageButton()
     .setCustomId('go_main')
     .setLabel("돌아가기")
     .setEmoji('🏠')

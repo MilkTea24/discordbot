@@ -18,7 +18,7 @@ module.exports = {
         name: 'end'
     },
     async execute (interaction, client) {
-        var act_id = interaction.user.id;
+        let act_id = interaction.user.id;
 
         const user = await Users.findOne({
             where: {user_id: act_id},
@@ -39,13 +39,23 @@ module.exports = {
                  start_time.format();
 
                 var time = now_time.diff(start_time, "seconds");
+                
+                //잔액 추가
+                let addBalance = user.balance;
+                addBalance += time * 100;
+
+                await Users.update(
+                    {balance: addBalance},
+                    {where: {user_id: act_id}},
+                )
+
                 await Study_Time.create({study_id: act_id, date: start_time.format("YYYY-MM-DD"), study_start_time: start_time.format(), studying_time: time});
 
                 let hour = Math.floor(time / 3600);
                 let minute = Math.floor(time / 60 % 60);
                 let second = Math.floor(time % 60);
                 study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님이 공부를 끝냈어요.\n" +
-                hour + "시간 " + minute + "분 " +second + "초 동안 공부했어요:blue_book:"});
+                hour + "시간 " + minute + "분 " + second + "초 동안 공부했어요. :blue_book:"});
             }
             else {
                 study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님은 현재 놀고 계시네요..:pensive:"});

@@ -1,7 +1,7 @@
 const { isNull } = require("lodash");
 const { SlashCommandBuilder, userMention } = require('@discordjs/builders');
 const request = require('request');
-const upbit_coins = require('./coin_info_module');
+const upbit_coins = require('../../modules/upbitCoinList');
 const moment = require('moment');
 const { Interaction } = require("discord.js");
 

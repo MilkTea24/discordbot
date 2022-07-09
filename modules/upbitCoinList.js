@@ -9,6 +9,5 @@ const options = {
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
 
-  var coin_list = JSON.parse(body);
-  exports.list = coin_list;
+  return JSON.parse(body);
 });

@@ -25,6 +25,16 @@ module.exports = {
                 now_time.format();
     
                 var time = now_time.diff(start_time, "seconds");
+                
+                //입금
+                let addBalance = user.balance;
+                addBalance += time * 100;
+
+                await Users.update(
+                    {balance: addBalance},
+                    {where: {user_id: user.user_id}},
+                )
+
                 await Study_Time.create({study_id: key, date: start_time.format("YYYY-MM-DD"), study_start_time: start_time.format(), studying_time: time});
     
                 temp.set(key, {time:moment().utcOffset(540), name:user.user_name});
