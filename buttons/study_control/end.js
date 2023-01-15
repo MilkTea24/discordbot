@@ -1,9 +1,8 @@
 const moment = require('moment');
 const {Users, Coins, Study_Time} = require('../../dbObjects.js');
-const study_button = require('../../modules/button.js');
+const study_button = require('../../modules/studyMainButton.js');
 const study_time_collection = require('../../modules/study_collection.js');
 const { Client, MessageActionRow, Intents, MessageEmbed } = require('discord.js');
-var study_info = require('../../modules/share_study_info.js');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
@@ -24,7 +23,7 @@ module.exports = {
             where: {user_id: act_id},
         });
 
-        study_info.infoembed = new MessageEmbed()
+        let infoEmbed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle("놀지말고 공부합시다 :fist::fist:")
 
@@ -54,15 +53,15 @@ module.exports = {
                 let hour = Math.floor(time / 3600);
                 let minute = Math.floor(time / 60 % 60);
                 let second = Math.floor(time % 60);
-                study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님이 공부를 끝냈어요.\n" +
+                infoEmbed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님이 공부를 끝냈어요.\n" +
                 hour + "시간 " + minute + "분 " + second + "초 동안 공부했어요. :blue_book:"});
             }
             else {
-                study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님은 현재 놀고 계시네요..:pensive:"});
+                infoEmbed.addFields({name: "알림 :speech_balloon:" , value: interaction.user.username + "님은 현재 놀고 계시네요..:pensive:"});
             }
         }
         else{
-            study_info.infoembed.addFields({name: "알림 :speech_balloon:" , value: "미등록 회원은 이 기능을 사용할 수 없습니다. 회원 등록을 원하시면 /회원가입"})
+            infoEmbed.addFields({name: "알림 :speech_balloon:" , value: "미등록 회원은 이 기능을 사용할 수 없습니다. 회원 등록을 원하시면 /회원가입"})
         }
 
         var s = "";
@@ -71,9 +70,9 @@ module.exports = {
         }
         
         if (s){
-        study_info.infoembed.addFields({name: "현재 공부 중인 인원", value: s})
+        infoEmbed.addFields({name: "현재 공부 중인 인원", value: s})
         }
 
-        await interaction.reply({embeds: [study_info.infoembed],components: [study_button]});
+        await interaction.reply({embeds: [infoEmbed],components: [study_button]});
     },
 };

@@ -1,6 +1,6 @@
 const moment = require('moment');
 const {Users, Coins, Study_Time} = require('../dbObjects.js');
-const study_button = require('./button.js');
+const study_button = require('./studyMainButton.js');
 const study_time_collection = require('./study_collection.js');
 const { Client, MessageActionRow, Intents, MessageEmbed } = require('discord.js');
 const Sequelize = require('sequelize');

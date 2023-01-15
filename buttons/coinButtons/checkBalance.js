@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Sequelize = require('sequelize');
 const request = require('request');
 
-const buttonCoinMain = require('../../modules/buttonCoinMain.js');
+const coinMainButton = require('../../modules/coinMainButton.js');
 
 const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
@@ -100,6 +100,6 @@ module.exports = {
 
         coinEmbed.addFields({name: "계좌 총 평가 금액 💎", value: totalBalance.toLocaleString('ko-KR', {maximumFractionDigits: 0}) + " KRW"});
 
-        await interaction.reply({embeds: [coinEmbed],components: [buttonCoinMain]});
+        await interaction.reply({embeds: [coinEmbed],components: [coinMainButton]});
     },
 };

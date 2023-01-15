@@ -1,5 +1,5 @@
 const moment = require('moment');
-const study_button = require('../../modules/button.js');
+const study_button = require('../../modules/studyMainButton.js');
 const { Client, MessageActionRow, Intents, MessageEmbed } = require('discord.js');
 const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const study_time_collection = require('../../modules/study_collection.js');

@@ -1,7 +1,7 @@
 const {Modal, MessageActionRow, MessageEmbed, TextInputComponent} = require('discord.js');
 const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const moment = require('moment');
-const study_etc_button = require('../../modules/button_etc.js');
+const study_etc_button = require('../../modules/studyEtcButton.js');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;

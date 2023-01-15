@@ -18,9 +18,9 @@ const row = new MessageActionRow()
     .setEmoji('🥳')
     .setStyle('DANGER'),
     new MessageButton()
-    .setCustomId('study_etc')
-    .setLabel("목록 더보기")
-    .setEmoji('📋')
+    .setCustomId('ranking')
+    .setLabel("오늘의 랭킹")
+    .setEmoji('📊')
     .setStyle('SECONDARY'),
 )
 

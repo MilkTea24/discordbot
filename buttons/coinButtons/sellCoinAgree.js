@@ -1,4 +1,4 @@
-const buttonCoinMain = require('../../modules/buttonCoinMain.js');
+const coinMainButton = require('../../modules/coinMainButton.js');
 const {Users, Coins, Study_Time} = require('../../dbObjects.js');
 const { MessageActionRow, MessageEmbed } = require('discord.js');
 const sendCoinInfo = require('../../modules/sendSellCoinInfo.js');
@@ -77,6 +77,6 @@ module.exports = {
 
         coinEmbed.addFields({name: "알림 :speech_balloon:", value: "판매 성공했습니다! 계좌를 확인해보세요."});
 
-        return interaction.reply({embeds: [coinEmbed],components: [buttonCoinMain], ephemeral: true});
+        return interaction.reply({embeds: [coinEmbed],components: [coinMainButton], ephemeral: true});
     }
 }

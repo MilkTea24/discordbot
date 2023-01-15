@@ -1,4 +1,4 @@
-const buttonCoinMain = require('../../modules/buttonCoinMain.js');
+const coinMainButton = require('../../modules/coinMainButton.js');
 const { MessageActionRow, MessageEmbed } = require('discord.js');
 const sendCoinInfo = require('../../modules/sendCoinInfo.js');
 
@@ -22,6 +22,6 @@ module.exports = {
 
         coinEmbed.addFields({name: "알림 :speech_balloon:" , value: "메인화면으로 돌아왔어요."});
       
-        await interaction.reply({embeds: [coinEmbed],components: [buttonCoinMain]});
+        await interaction.reply({embeds: [coinEmbed],components: [coinMainButton]});
     }
 }

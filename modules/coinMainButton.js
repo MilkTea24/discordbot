@@ -18,10 +18,10 @@ const row = new MessageActionRow()
     .setEmoji('💵')
     .setStyle('DANGER'),
     new MessageButton()
-    .setCustionId('checkPrice')
+    .setCustomId('checkPrice')
     .setLabel("시세확인")
     .setEmoji('🔎')
     .setStyle('SECONDARY'),
-)
+);
 
 module.exports = row;

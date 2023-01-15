@@ -1,4 +1,4 @@
-const etc_button = require('../../modules/button_etc.js');
+const etc_button = require('../../modules/studyEtcButton.js');
 const { MessageActionRow, MessageEmbed } = require('discord.js');
 const study_time_collection = require('../../modules/study_collection.js');
 var study_info = require('../../modules/share_study_info.js');
