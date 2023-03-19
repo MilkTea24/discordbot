@@ -1,11 +1,3 @@
-//군침 봇 client ID:"947493594334367784"
-//테스트 봇 client ID:"969053884674879510"
-//열품타 서버id:"840862668432867358"
-//테스트 서버id:"939036590636924998"
-//군침 봇 토큰:"OTQ3NDkzNTk0MzM0MzY3Nzg0.Gpd9uy.B6XTeTDEakyt_5yTWqz--TfGAcfBcjsGuWUk-0"
-//테스트 봇 토큰:"OTY5MDUzODg0Njc0ODc5NTEw.Gxr-SS.Ys1DO8NSl-LelotKsTPcvO25VhSFyWf7QWZocI"
-//테스트 서버에서 본 서버로 옮길때 channelID.js에서 채널도 옮겨주기
-
 const Sequelize = require('sequelize');
 const fs = require('fs');
 const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
