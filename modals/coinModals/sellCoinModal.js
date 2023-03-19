@@ -34,10 +34,10 @@ module.exports = {
         name: 'sellCoinModal'
     },
     async execute (modal) {
-        const sellPercent = modal.getSelectMenuValues('sellPercent')[0];
-        const selectCoinName = modal.getSelectMenuValues('selectCoinName')[0];
+        //const sellPercent = modal.getSelectMenuValues('sellPercent')[0];
+       // const selectCoinName = modal.getSelectMenuValues('selectCoinName')[0];
         const coinName = modal.getTextInputValue('coinName');
-        const isAmountorPrice = modal.getSelectMenuValues('isAmountorPrice')[0];
+        const isAmountorPriceorPercent = modal.getTextInputValue('isAmountorPriceorPercent');
         const number = modal.getTextInputValue('number');
         const userId = modal.user.id;
         
@@ -48,26 +48,30 @@ module.exports = {
 
          let isValidNumber = !isNaN(number);
 
+         /*
         if (isNull(selectCoinName) && isNull(coinName)){
             return modal.reply({ content: `코인을 선택하지 않으셨네요. 다시 시도해주세요.`, ephemeral: true });
-        }
+        }*/
 
         if (!isValidNumber) {
             return modal.reply({ content: `수량/금액을 입력하는 칸에는 숫자만 입력해주세요.`, ephemeral: true});
         }
 
+        /*
         let isEmptyValues = isNull(number) || isNull(isAmountorPrice);
         if (sellPercent === "noOption" && isEmptyValues){
             return modal.reply({ content: `선택안함을 설정하셨다면 원하는 정량/정액 판매여부와 수량/가격을 입력하셔야 합니다.`, ephemeral: true});
-        }
+        }*/
 
-        let findCoinName;
+        const findCoinName = coinName;
+        /*
         if (!isNull(selectCoinName)) {
             findCoinName = selectCoinName;
         }
         else {
             findCoinName = coinName;
-        }
+        } */
+
         const thisCoin = await Coins.findOne({
             attributes: [
                 'user_id','coin_name','coin_market','average_price','amount'],
@@ -99,6 +103,7 @@ module.exports = {
         let sellTotalPrice = 0;
         let sellCoinAmount = 0;
 
+        /*
         if (sellPercent === "percent100"){
             sellCoinAmount = thisCoin.amount;
             sellTotalPrice = sellCoinTradePrice * sellCoinAmount;
@@ -123,6 +128,24 @@ module.exports = {
         else if (sellPercent === "noOption" && isAmountorPrice === "money"){
             sellTotalPrice = number * 1;
             sellCoinAmount = sellTotalPrice / sellCoinTradePrice;
+        }
+        */
+        if (number < 0) number = 0;
+
+        if (isAmountorPriceorPercent === "1") {
+            sellCoinAmount = number * 1;
+            sellTotalPrice = sellCoinAmount * sellCoinTradePrice;
+        }
+        else if (isAmountorPriceorPercent === "2") {
+            sellTotalPrice = number * 1;
+            sellCoinAmount = sellTotalPrice / sellCoinTradePrice;
+        }
+        else if (isAmountorPriceorPercent === "3") {
+            sellCoinAmount = thisCoin.amount * number / 100;
+            sellTotalPrice = sellCoinAmount * sellCoinTradePrice;
+        }
+        else {
+            return modal.reply({ content: `1, 2, 3만 입력해주세요.`, ephemeral: true})
         }
 
         let flag = 0;

@@ -34,9 +34,8 @@ module.exports = {
         name: 'buyCoinModal'
     },
     async execute (modal) {
-        const buyPercent = modal.getSelectMenuValues('buyPercent')[0];
         const coinName = modal.getTextInputValue('coinName');
-        const isAmountorPrice = modal.getSelectMenuValues('isAmountorPrice')[0];
+        const isAmountorPriceorPercent = modal.getTextInputValue('isAmountorPriceorPercent');
         const number = modal.getTextInputValue('number');
         const userId = modal.user.id;
         
@@ -82,13 +81,15 @@ module.exports = {
         }
 
         if (!isValidNumber) {
-            return modal.reply({ content: `수량/금액을 입력하는 칸에는 숫자만 입력해주세요.`, ephemeral: true});
+            return modal.reply({ content: `수량/금액/퍼센트를 입력하는 칸에는 숫자만 입력해주세요.`, ephemeral: true});
         }
 
+        /*
         let isEmptyValues = isNull(number) || isNull(isAmountorPrice);
         if (buyPercent === "noOption" && isEmptyValues){
             return modal.reply({ content: `선택안함을 설정하셨다면 원하는 정량/정액 구매여부와 수량/가격을 입력하셔야 합니다.`, ephemeral: true});
         }
+        */
 
         let str_url = 'https://api.upbit.com/v1/candles/days?market=' + thisCoin.market + '&count=1';
         const options = {
@@ -114,6 +115,7 @@ module.exports = {
         let buyTotalPrice = 0;
         let buyCoinAmount = 0;
 
+        /*
         if (buyPercent === "percent100"){
             buyTotalPrice = user.balance;
         }
@@ -138,6 +140,24 @@ module.exports = {
         else if (buyPercent === "noOption" && isAmountorPrice === "money"){
             buyTotalPrice = number * 1;
             buyCoinAmount = buyTotalPrice / buyCoinTradePrice;
+        }
+        */
+        if (number < 0) number = 0;
+
+        if (isAmountorPriceorPercent === "1") {
+            buyCoinAmount = number * 1;
+            buyTotalPrice = buyCoinAmount * buyCoinTradePrice;
+        }
+        else if (isAmountorPriceorPercent === "2") {
+            buyTotalPrice = number * 1;
+            buyCoinAmount = buyTotalPrice / buyCoinTradePrice;
+        }
+        else if (isAmountorPriceorPercent === "3") {
+            buyTotalPrice = user.balance * number / 100;
+            buyCoinAmount = buyTotalPrice / buyCoinTradePrice;
+        }
+        else {
+            return modal.reply({ content: `1, 2, 3만 입력해주세요.`, ephemeral: true})
         }
 
         let flag = 0;

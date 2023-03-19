@@ -13,9 +13,10 @@ module.exports = {
             new TextInputComponent()
             .setCustomId('coinName')
             .setLabel("코인 이름을 정자로 입력해주세요.")
-            .setPlaceholder("한글로 코인이름을 입력해주세요")
+            .setPlaceholder("한글로 입력해주세요")
             .setStyle('SHORT')
             .setRequired(true),
+            /*
             new SelectMenuComponent()
             .setCustomId('buyPercent')
             .setPlaceholder("간편 구매창입니다.")
@@ -46,11 +47,20 @@ module.exports = {
                     value: "percent10"
                 }
             ),     
+            */
+            new TextInputComponent()
+            .setCustomId('isAmountorPriceorPercent')
+            .setLabel("구매 방법을 숫자로 입력해주세요")
+            .setPlaceholder("정량매수 : 1, 정액매수 : 2, 퍼센트매수 : 3")
+            .setStyle('SHORT')
+            .setRequired(true),
             new TextInputComponent()
             .setCustomId('number')
-            .setLabel("임의 구매를 원하는 경우에만 수량 또는 금액을 입력해주세요.")
-            .setPlaceholder("숫자로 수량 또는 금액을 입력해주세요")
-            .setStyle('SHORT'),
+            .setLabel("구매할 수량,금액 또는 퍼센트 비율을 입력해주세요.")
+            .setPlaceholder("숫자로 입력해주세요")
+            .setStyle('SHORT')
+            .setRequired(true),
+            /*
             new SelectMenuComponent()
             .setCustomId('isAmountorPrice')
             .setMinValues(0)
@@ -66,6 +76,7 @@ module.exports = {
                     value: "money"
                 }
             )
+            */
        )
 
         await showModal(modal, {

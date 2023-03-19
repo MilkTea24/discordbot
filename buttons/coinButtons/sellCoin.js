@@ -6,6 +6,7 @@ module.exports = {
         name: 'sellCoin'
     },
     async execute (interaction, client) {
+        /*
         const userId = interaction.user.id;
         let sellCoins = [];
 
@@ -38,21 +39,26 @@ module.exports = {
 
             sellCoins.push(object);
         }
+        */
 
         const modal = new Modal()
         .setCustomId('sellCoinModal')
         .setTitle('gunchim')
         .addComponents(
+            /*
             new SelectMenuComponent()
             .setCustomId('selectCoinName')
             .setPlaceholder("판매할 코인을 선택해주세요.")
             .setMinValues(0)
             .addOptions(sellCoins),
+            */
             new TextInputComponent()
             .setCustomId('coinName')
-            .setLabel("또는 판매를 원하는 코인을 직접 입력하세요")
-            .setPlaceholder("한글로 코인이름을 입력해주세요")
-            .setStyle('SHORT'),
+            .setLabel("판매를 원하는 코인을 직접 입력하세요")
+            .setPlaceholder("한글로 입력해주세요")
+            .setStyle('SHORT')
+            .setRequired(true),
+            /*
             new SelectMenuComponent()
             .setCustomId('sellPercent')
             .setPlaceholder("간편 판매창입니다.")
@@ -82,12 +88,20 @@ module.exports = {
                     description: "가진 코인의 10%를 매도합니다.",
                     value: "percent10"
                 }
-            ),     
+            ),*/
+            new TextInputComponent()
+            .setCustomId('isAmountorPriceorPercent')
+            .setLabel("판매 방법을 숫자로 입력해주세요")
+            .setPlaceholder("정량매도 : 1, 정액매도 : 2, 퍼센트매도 : 3")
+            .setStyle('SHORT')
+            .setRequired(true),     
             new TextInputComponent()
             .setCustomId('number')
-            .setLabel("임의 판매를 원하는 경우에만 수량 또는 금액을 입력해주세요.")
-            .setPlaceholder("숫자로 수량 또는 금액을 입력해주세요")
-            .setStyle('SHORT'),
+            .setLabel("판매할 수량,금액 또는 퍼센트 비율을 입력해주세요.")
+            .setPlaceholder("숫자로 입력해주세요")
+            .setStyle('SHORT')
+            .setRequired(true),
+            /*
             new SelectMenuComponent()
             .setCustomId('isAmountorPrice')
             .setMinValues(0)
@@ -103,6 +117,7 @@ module.exports = {
                     value: "money"
                 }
             )
+            */
        )
 
         await showModal(modal, {
